@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sunrise/Sunset ICS</title>
+
     <link
             rel="stylesheet"
             href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -15,70 +16,76 @@
 <body>
 <header class="header">
     <div class="brand">Sunrise/Sunset ICS</div>
-    <button id="howtoBtn" class="btn btn-ghost" type="button">HowTo</button>
+
+    <div class="row">
+        <button id="langToggleBtn" class="btn btn-ghost" type="button">EN</button>
+        <button id="howtoBtn" class="btn btn-ghost" type="button" data-i18n="howto">Anleitung</button>
+    </div>
 </header>
 
 <main class="container">
     <section class="card">
-        <h1 class="h1">Generate calendar events</h1>
-        <p class="muted">
-            Pick a location and date range. Download an ICS file with sunrise/sunset events.
+        <h1 class="h1" data-i18n="title">Kalendereinträge erzeugen</h1>
+        <p class="muted" data-i18n="intro">
+            Wähle einen Ort und einen Datumsbereich. Lade eine ICS-Datei mit Sonnenauf- und Sonnenuntergangs-Ereignissen herunter.
         </p>
 
         <form id="form" class="form">
             <div class="field">
-                <label for="q">Location search (Nominatim)</label>
+                <label for="q" data-i18n="search_label">Ortssuche (Nominatim)</label>
                 <div class="row">
-                    <input id="q" name="q" type="text" placeholder="z.B. Rosengarten, Bern, Schweiz" autocomplete="off" />
-                    <button id="searchBtn" class="btn" type="button">Search</button>
+                    <input id="q" name="q" type="text" placeholder="z. B. Rosengarten, Bern, Schweiz" autocomplete="off" />
+                    <button id="searchBtn" class="btn" type="button" data-i18n="search_btn">Suchen</button>
                 </div>
                 <div id="searchStatus" class="hint"></div>
                 <div id="results" class="results" aria-live="polite"></div>
             </div>
 
             <div class="field">
-                <label>Map (tap to set marker)</label>
-                <div id="map" class="map" aria-label="Map picker"></div>
-                <div class="hint">Tip: tap the map to set the location, or use search results above.</div>
+                <label data-i18n="map_label">Karte (antippen, um Marker zu setzen)</label>
+                <div id="map" class="map" aria-label="Kartenauswahl"></div>
+                <div class="hint" data-i18n="map_hint">
+                    Tipp: Tippe auf die Karte, um den Ort zu setzen, oder nutze die Suchergebnisse oben.
+                </div>
             </div>
 
             <div class="grid2">
                 <div class="field">
-                    <label for="lat">Latitude</label>
+                    <label for="lat" data-i18n="lat">Breitengrad</label>
                     <input id="lat" name="lat" inputmode="decimal" placeholder="46.951913" required />
                 </div>
                 <div class="field">
-                    <label for="lon">Longitude</label>
+                    <label for="lon" data-i18n="lon">Längengrad</label>
                     <input id="lon" name="lon" inputmode="decimal" placeholder="7.460321" required />
                 </div>
             </div>
 
             <div class="grid2">
                 <div class="field">
-                    <label for="start_date">Start date</label>
+                    <label for="start_date" data-i18n="start_date">Startdatum</label>
                     <input id="start_date" name="start_date" type="date" required />
                 </div>
                 <div class="field">
-                    <label for="end_date">End date</label>
+                    <label for="end_date" data-i18n="end_date">Enddatum</label>
                     <input id="end_date" name="end_date" type="date" required />
                 </div>
             </div>
 
             <div class="field">
-                <label for="duration">Event duration (minutes)</label>
+                <label for="duration" data-i18n="duration">Dauer des Ereignisses (Minuten)</label>
                 <input id="duration" name="duration" type="number" min="1" max="1440" value="30" required />
             </div>
 
             <div class="field">
-                <label>Include events</label>
+                <label data-i18n="include">Ereignisse einbeziehen</label>
                 <div class="checks">
                     <label class="check">
                         <input id="include_sunrise" type="checkbox" checked />
-                        <span>Sunrise</span>
+                        <span data-i18n="sunrise">Sonnenaufgang</span>
                     </label>
                     <label class="check">
                         <input id="include_sunset" type="checkbox" checked />
-                        <span>Sunset</span>
+                        <span data-i18n="sunset">Sonnenuntergang</span>
                     </label>
                 </div>
                 <div id="includeError" class="error" role="alert"></div>
@@ -86,17 +93,17 @@
 
             <div class="grid2">
                 <div class="field">
-                    <label for="sunrise_title">Sunrise title</label>
-                    <input id="sunrise_title" type="text" value="Sunrise" />
+                    <label for="sunrise_title">Titel Sonnenaufgang</label>
+                    <input id="sunrise_title" type="text" value="Sonnenaufgang" />
                 </div>
                 <div class="field">
-                    <label for="sunset_title">Sunset title</label>
-                    <input id="sunset_title" type="text" value="Sunset" />
+                    <label for="sunset_title">Titel Sonnenuntergang</label>
+                    <input id="sunset_title" type="text" value="Sonnenuntergang" />
                 </div>
             </div>
 
             <div class="actions">
-                <button id="generateBtn" class="btn btn-primary" type="submit">Download ICS</button>
+                <button id="generateBtn" class="btn btn-primary" type="submit" data-i18n="download">ICS herunterladen</button>
                 <div id="formStatus" class="hint" aria-live="polite"></div>
             </div>
         </form>
@@ -107,18 +114,18 @@
 <div id="modalBackdrop" class="backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="howtoTitle">
     <div class="modal">
         <div class="modal-header">
-            <div id="howtoTitle" class="modal-title">HowTo</div>
+            <div id="howtoTitle" class="modal-title" data-i18n="howto">Anleitung</div>
             <button id="closeModalBtn" class="btn btn-ghost" type="button">Close</button>
         </div>
         <div class="modal-body">
             <ol class="ol">
-                <li>Search for a place or enter latitude/longitude manually.</li>
-                <li>Select a date range and event duration.</li>
-                <li>Choose sunrise, sunset, or both.</li>
-                <li>Click “Download ICS” and import into your calendar.</li>
+                <li data-i18n="howto_1">Suche nach einem Ort oder gib Koordinaten manuell ein.</li>
+                <li data-i18n="howto_2">Wähle einen Datumsbereich und eine Ereignisdauer.</li>
+                <li data-i18n="howto_3">Wähle Sonnenaufgang, Sonnenuntergang oder beides.</li>
+                <li data-i18n="howto_4">Klicke auf „ICS herunterladen“ und importiere die Datei in deinen Kalender.</li>
             </ol>
             <p class="muted small">
-                Times are computed locally (no API key). Location search uses OpenStreetMap Nominatim.
+                Zeiten werden lokal berechnet (kein API-Key). Die Ortssuche verwendet OpenStreetMap Nominatim.
             </p>
         </div>
     </div>

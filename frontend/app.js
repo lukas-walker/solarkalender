@@ -7,6 +7,70 @@ const DEFAULT_LOCATION = {
 };
 
 
+// ---------- i18n ----------
+let currentLang = "de";
+
+const I18N = {
+    de: {
+        title: "Kalendereinträge erzeugen",
+        intro: "Wähle einen Ort und einen Datumsbereich. Lade eine ICS-Datei mit Sonnenauf- und Sonnenuntergangs-Ereignissen herunter.",
+        search_label: "Ortssuche (Nominatim)",
+        search_btn: "Suchen",
+        map_label: "Karte (antippen, um Marker zu setzen)",
+        map_hint: "Tipp: Tippe auf die Karte, um den Ort zu setzen, oder nutze die Suchergebnisse oben.",
+        lat: "Breitengrad",
+        lon: "Längengrad",
+        start_date: "Startdatum",
+        end_date: "Enddatum",
+        duration: "Dauer des Ereignisses (Minuten)",
+        include: "Ereignisse einbeziehen",
+        sunrise: "Sonnenaufgang",
+        sunset: "Sonnenuntergang",
+        download: "ICS herunterladen",
+        howto: "Anleitung",
+        howto_1: "Suche nach einem Ort oder gib Koordinaten manuell ein.",
+        howto_2: "Wähle einen Datumsbereich und eine Ereignisdauer.",
+        howto_3: "Wähle Sonnenaufgang, Sonnenuntergang oder beides.",
+        howto_4: "Klicke auf „ICS herunterladen“ und importiere die Datei in deinen Kalender."
+    },
+    en: {
+        title: "Generate calendar events",
+        intro: "Pick a location and date range. Download an ICS file with sunrise/sunset events.",
+        search_label: "Location search (Nominatim)",
+        search_btn: "Search",
+        map_label: "Map (tap to set marker)",
+        map_hint: "Tip: tap the map to set the location, or use search results above.",
+        lat: "Latitude",
+        lon: "Longitude",
+        start_date: "Start date",
+        end_date: "End date",
+        duration: "Event duration (minutes)",
+        include: "Include events",
+        sunrise: "Sunrise",
+        sunset: "Sunset",
+        download: "Download ICS",
+        howto: "HowTo",
+        howto_1: "Search for a place or enter latitude/longitude manually.",
+        howto_2: "Select a date range and event duration.",
+        howto_3: "Choose sunrise, sunset, or both.",
+        howto_4: "Click “Download ICS” and import into your calendar."
+    }
+};
+
+function applyLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (I18N[lang][key]) {
+            el.textContent = I18N[lang][key];
+        }
+    });
+
+    $("langToggleBtn").textContent = lang === "de" ? "EN" : "DE";
+}
+
 function $(id) {
     return document.getElementById(id);
 }
@@ -20,6 +84,13 @@ function clamp(str, maxLen = 160) {
     if (!str) return "";
     return str.length > maxLen ? str.slice(0, maxLen - 1) + "…" : str;
 }
+
+$("langToggleBtn").addEventListener("click", () => {
+    applyLanguage(currentLang === "de" ? "en" : "de");
+});
+
+// default language
+applyLanguage("de");
 
 // ---------- Modal ----------
 const howtoBtn = $("howtoBtn");
