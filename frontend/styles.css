@@ -1,0 +1,241 @@
+/* ---------- Base reset ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.4;
+}
+
+body {
+    margin: 0;
+    color: #111;
+    background: #f6f7f9;
+}
+
+/* ---------- Layout ---------- */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.brand {
+    font-weight: 600;
+}
+
+.container {
+    padding: 1rem;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* ---------- Typography ---------- */
+.h1 {
+    font-size: 1.25rem;
+    margin: 0 0 0.25rem 0;
+}
+
+.muted {
+    color: #6b7280;
+}
+
+.small {
+    font-size: 0.875rem;
+}
+
+/* ---------- Form ---------- */
+.form {
+    margin-top: 1rem;
+}
+
+.field {
+    margin-bottom: 0.75rem;
+}
+
+label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"] {
+    width: 100%;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+input:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.row {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.grid2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+}
+
+@media (min-width: 600px) {
+    .grid2 {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.btn:hover {
+    background: #f3f4f6;
+}
+
+.btn-primary {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.btn-ghost {
+    border-color: transparent;
+}
+
+/* ---------- Checks ---------- */
+.checks {
+    display: flex;
+    gap: 1rem;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* ---------- Results ---------- */
+.results {
+    margin-top: 0.25rem;
+}
+
+.result {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    background: #fff;
+    margin-bottom: 0.25rem;
+}
+
+.result:hover {
+    background: #f9fafb;
+}
+
+.result-title {
+    font-size: 0.9rem;
+}
+
+.result-meta {
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+/* ---------- Feedback ---------- */
+.hint {
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+.error {
+    color: #b91c1c;
+    font-size: 0.85rem;
+}
+
+/* ---------- Actions ---------- */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* ---------- Modal ---------- */
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal {
+    background: #fff;
+    border-radius: 8px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 1rem;
+}
+
+.ol {
+    padding-left: 1.25rem;
+}

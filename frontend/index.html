@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sunrise/Sunset ICS</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+<header class="header">
+    <div class="brand">Sunrise/Sunset ICS</div>
+    <button id="howtoBtn" class="btn btn-ghost" type="button">HowTo</button>
+</header>
+
+<main class="container">
+    <section class="card">
+        <h1 class="h1">Generate calendar events</h1>
+        <p class="muted">
+            Pick a location and date range. Download an ICS file with sunrise/sunset events.
+        </p>
+
+        <form id="form" class="form">
+            <div class="field">
+                <label for="q">Location search (Nominatim)</label>
+                <div class="row">
+                    <input id="q" name="q" type="text" placeholder="e.g. Zurich, Switzerland" autocomplete="off" />
+                    <button id="searchBtn" class="btn" type="button">Search</button>
+                </div>
+                <div id="searchStatus" class="hint"></div>
+                <div id="results" class="results" aria-live="polite"></div>
+            </div>
+
+            <div class="grid2">
+                <div class="field">
+                    <label for="lat">Latitude</label>
+                    <input id="lat" name="lat" inputmode="decimal" placeholder="47.3769" required />
+                </div>
+                <div class="field">
+                    <label for="lon">Longitude</label>
+                    <input id="lon" name="lon" inputmode="decimal" placeholder="8.5417" required />
+                </div>
+            </div>
+
+            <div class="grid2">
+                <div class="field">
+                    <label for="start_date">Start date</label>
+                    <input id="start_date" name="start_date" type="date" required />
+                </div>
+                <div class="field">
+                    <label for="end_date">End date</label>
+                    <input id="end_date" name="end_date" type="date" required />
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="duration">Event duration (minutes)</label>
+                <input id="duration" name="duration" type="number" min="1" max="1440" value="30" required />
+            </div>
+
+            <div class="field">
+                <label>Include events</label>
+                <div class="checks">
+                    <label class="check">
+                        <input id="include_sunrise" type="checkbox" checked />
+                        <span>Sunrise</span>
+                    </label>
+                    <label class="check">
+                        <input id="include_sunset" type="checkbox" checked />
+                        <span>Sunset</span>
+                    </label>
+                </div>
+                <div id="includeError" class="error" role="alert"></div>
+            </div>
+
+            <div class="grid2">
+                <div class="field">
+                    <label for="sunrise_title">Sunrise title</label>
+                    <input id="sunrise_title" type="text" value="Sunrise" />
+                </div>
+                <div class="field">
+                    <label for="sunset_title">Sunset title</label>
+                    <input id="sunset_title" type="text" value="Sunset" />
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="generateBtn" class="btn btn-primary" type="submit">Download ICS</button>
+                <div id="formStatus" class="hint" aria-live="polite"></div>
+            </div>
+        </form>
+    </section>
+</main>
+
+<!-- HowTo Modal -->
+<div id="modalBackdrop" class="backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="howtoTitle">
+    <div class="modal">
+        <div class="modal-header">
+            <div id="howtoTitle" class="modal-title">HowTo</div>
+            <button id="closeModalBtn" class="btn btn-ghost" type="button">Close</button>
+        </div>
+        <div class="modal-body">
+            <ol class="ol">
+                <li>Search for a place or enter latitude/longitude manually.</li>
+                <li>Select a date range and event duration.</li>
+                <li>Choose sunrise, sunset, or both.</li>
+                <li>Click “Download ICS” and import into your calendar.</li>
+            </ol>
+            <p class="muted small">
+                Times are computed locally (no API key). Location search uses OpenStreetMap Nominatim.
+            </p>
+        </div>
+    </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
