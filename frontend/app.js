@@ -35,7 +35,8 @@ const I18N = {
         howto_2: "Wähle einen Datumsbereich und eine Ereignisdauer.",
         howto_3: "Wähle Sonnenaufgang, Sonnenuntergang oder beides.",
         howto_4: "Klicke auf „ICS herunterladen“ und importiere die Datei in deinen Kalender.",
-        howto_disclaimer: "Zeiten werden lokal berechnet (kein API-Key). Die Ortssuche verwendet OpenStreetMap Nominatim."
+        howto_disclaimer: "Zeiten werden lokal berechnet (kein API-Key). Die Ortssuche verwendet OpenStreetMap Nominatim.",
+        source: "Quellcode auf GitHub"
     },
     en: {
         title: "When is sunset again?",
@@ -61,7 +62,8 @@ const I18N = {
         howto_2: "Select a date range and an event duration.",
         howto_3: "Choose sunrise, sunset, or both.",
         howto_4: "Click “Download ICS” and import the file into your calendar.",
-        howto_disclaimer: "Times are calculated locally (No API-key). The location search is using OpenStreetMap Nominatim."
+        howto_disclaimer: "Times are calculated locally (No API-key). The location search is using OpenStreetMap Nominatim.",
+        source: "Source code on GitHub"
     }
 };
 
