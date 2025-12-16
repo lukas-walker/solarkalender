@@ -1,4 +1,12 @@
 // ---------- Helpers ----------
+const DEFAULT_LOCATION = {
+    lat: 46.9519,
+    lon: 7.4603,
+    zoom: 10,
+    label: "Rosengarten, Bern, Schweiz",
+};
+
+
 function $(id) {
     return document.getElementById(id);
 }
@@ -21,23 +29,84 @@ const modalBackdrop = $("modalBackdrop");
 function openModal() {
     modalBackdrop.classList.remove("hidden");
 }
-
 function closeModal() {
     modalBackdrop.classList.add("hidden");
 }
 
 howtoBtn.addEventListener("click", openModal);
 closeModalBtn.addEventListener("click", closeModal);
-
-// Close when clicking outside the modal
 modalBackdrop.addEventListener("click", (e) => {
     if (e.target === modalBackdrop) closeModal();
 });
-
-// Close on Escape
 document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !modalBackdrop.classList.contains("hidden")) closeModal();
 });
+
+// ---------- Map (Leaflet) ----------
+const latInput = $("lat");
+const lonInput = $("lon");
+
+let map = null;
+let marker = null;
+
+function setLatLon(lat, lon, { pan = true } = {}) {
+    latInput.value = String(lat);
+    lonInput.value = String(lon);
+
+    if (map) {
+        if (!marker) {
+            marker = L.marker([lat, lon]).addTo(map);
+        } else {
+            marker.setLatLng([lat, lon]);
+        }
+        if (pan) map.setView([lat, lon], Math.max(map.getZoom(), 10));
+    }
+}
+
+function initMap() {
+    // Leaflet must be loaded (window.L available)
+    if (!window.L) {
+        console.error("Leaflet (L) not found. Check Leaflet script tag in index.html.");
+        return;
+    }
+
+    map = L.map("map", {
+        zoomControl: true,
+        scrollWheelZoom: true,
+    });
+
+    // OpenStreetMap tiles
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "&copy; OpenStreetMap contributors",
+    }).addTo(map);
+
+    // Default view
+    map.setView([DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lon], DEFAULT_LOCATION.zoom);
+    setLatLon(
+        DEFAULT_LOCATION.lat.toFixed(6),
+        DEFAULT_LOCATION.lon.toFixed(6),
+        { pan: false }
+    );
+    setText("searchStatus", `Default location: ${DEFAULT_LOCATION.label}`);
+
+    // Click to place marker + fill coordinates
+    map.on("click", (e) => {
+        const lat = e.latlng.lat.toFixed(6);
+        const lon = e.latlng.lng.toFixed(6);
+        setLatLon(lat, lon, { pan: false });
+        setText("searchStatus", `Selected on map: lat ${lat} • lon ${lon}`);
+    });
+
+    // If lat/lon already filled, place marker there
+    const lat = parseFloat(latInput.value);
+    const lon = parseFloat(lonInput.value);
+    if (!Number.isNaN(lat) && !Number.isNaN(lon)) {
+        setLatLon(lat, lon);
+    }
+}
+
+initMap();
 
 // ---------- Nominatim Search ----------
 const searchBtn = $("searchBtn");
@@ -45,7 +114,6 @@ const qInput = $("q");
 const resultsDiv = $("results");
 
 async function nominatimSearch(query) {
-    // Public Nominatim endpoint. Respect rate limiting: keep requests user-initiated.
     const url = new URL("https://nominatim.openstreetmap.org/search");
     url.searchParams.set("q", query);
     url.searchParams.set("format", "jsonv2");
@@ -53,11 +121,7 @@ async function nominatimSearch(query) {
     url.searchParams.set("addressdetails", "1");
 
     const res = await fetch(url.toString(), {
-        headers: {
-            // Nominatim strongly prefers an identifying UA; browsers restrict UA header,
-            // but Referer + default headers are typically accepted for small usage.
-            "Accept": "application/json"
-        }
+        headers: { "Accept": "application/json" },
     });
 
     if (!res.ok) {
@@ -90,8 +154,10 @@ function renderResults(items) {
     `;
 
         btn.addEventListener("click", () => {
-            $("lat").value = item.lat;
-            $("lon").value = item.lon;
+            const lat = parseFloat(item.lat);
+            const lon = parseFloat(item.lon);
+
+            setLatLon(lat.toFixed(6), lon.toFixed(6));
             setText("searchStatus", `Selected: ${clamp(display, 90)}`);
             clearResults();
         });
@@ -154,8 +220,8 @@ form.addEventListener("submit", async (e) => {
 
     if (!validateInclude()) return;
 
-    const lat = $("lat").value.trim();
-    const lon = $("lon").value.trim();
+    const lat = latInput.value.trim();
+    const lon = lonInput.value.trim();
     const start_date = $("start_date").value;
     const end_date = $("end_date").value;
 
@@ -176,7 +242,6 @@ form.addEventListener("submit", async (e) => {
         sunset_title: $("sunset_title").value || "Sunset",
     };
 
-    // Basic date sanity check (frontend)
     if (new Date(payload.end_date) < new Date(payload.start_date)) {
         setText("formStatus", "End date must be on or after start date.");
         return;

@@ -4,6 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sunrise/Sunset ICS</title>
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+            crossorigin=""
+    />
     <link rel="stylesheet" href="/static/styles.css" />
 </head>
 <body>
@@ -23,21 +29,27 @@
             <div class="field">
                 <label for="q">Location search (Nominatim)</label>
                 <div class="row">
-                    <input id="q" name="q" type="text" placeholder="e.g. Zurich, Switzerland" autocomplete="off" />
+                    <input id="q" name="q" type="text" placeholder="z.B. Rosengarten, Bern, Schweiz" autocomplete="off" />
                     <button id="searchBtn" class="btn" type="button">Search</button>
                 </div>
                 <div id="searchStatus" class="hint"></div>
                 <div id="results" class="results" aria-live="polite"></div>
             </div>
 
+            <div class="field">
+                <label>Map (tap to set marker)</label>
+                <div id="map" class="map" aria-label="Map picker"></div>
+                <div class="hint">Tip: tap the map to set the location, or use search results above.</div>
+            </div>
+
             <div class="grid2">
                 <div class="field">
                     <label for="lat">Latitude</label>
-                    <input id="lat" name="lat" inputmode="decimal" placeholder="47.3769" required />
+                    <input id="lat" name="lat" inputmode="decimal" placeholder="46.951913" required />
                 </div>
                 <div class="field">
                     <label for="lon">Longitude</label>
-                    <input id="lon" name="lon" inputmode="decimal" placeholder="8.5417" required />
+                    <input id="lon" name="lon" inputmode="decimal" placeholder="7.460321" required />
                 </div>
             </div>
 
@@ -112,6 +124,11 @@
     </div>
 </div>
 
+<script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""
+></script>
 <script src="/static/app.js"></script>
 </body>
 </html>
