@@ -13,7 +13,7 @@ let currentLang = "de";
 const I18N = {
     de: {
         title: "Wann ist nochmal Sonnenuntergang?",
-        intro: "Hier kannst du deinen eigenen Sonnenaufgangs- und Sonnenuntergangs-Kalender generieren. Einfach Ort und Datumsbereich wählen und denn Kalender exportieren. Das ics-File kannst du in jedem deiner Kalender importieren.",
+        intro: "Hier kannst du deinen eigenen Sonnenaufgangs- und Sonnenuntergangs-Kalender generieren. Einfach Ort und Datumsbereich wählen und denn Kalender exportieren. Das ics-File enthält alle Kalendereinträgekannst und du kannst es in jedem deiner Kalender importieren.",
         intro_2: "Ein Tipp: Erstelle einen neuen, leeren Kalender und importiere dort das ics-File. So kannst du bequem alle Sonnenauf- und -untergänge ein- und ausblenden (und den ganzen Kalender löschen, wenn etwas schiefgeht :)).",
         search_label: "Ortssuche",
         search_btn: "Suchen",
@@ -39,7 +39,7 @@ const I18N = {
     },
     en: {
         title: "When is sunset again?",
-        intro: "Here you can generate your own sunrise and sunset calendar. Simply choose a location and a date range, then export the calendar. You can import the ICS file into any of your calendars.",
+        intro: "Here you can generate your own sunrise and sunset calendar. Simply choose a location and a date range, then export the calendar. The ICS file contains all calendar entires and you can import it into any of your calendars.",
         intro_2: "Tip: Create a new, empty calendar and import the ICS file there. This way you can easily show or hide all sunrise and sunset events (and delete the entire calendar if something goes wrong :).",
         search_label: "Location search",
         search_btn: "Search",
